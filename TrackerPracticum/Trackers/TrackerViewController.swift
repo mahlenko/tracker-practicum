@@ -10,7 +10,12 @@ class TrackerViewController: UIViewController {
     // MARK: - UI
 
     private var plusButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "plus"))
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: nil,
+            action: nil)
+
         button.tintColor = .asset(.black)
         return button
     }()
