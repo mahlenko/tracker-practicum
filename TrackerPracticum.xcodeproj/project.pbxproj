@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		FB30E012CC39DDD78A566A6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB30E3C7AEF5830EBFB3055D /* Assets.xcassets */; };
-		FB30E2AE5B3856F007C82429 /* TrackerCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30E15099B575403B7228A3 /* TrackerCartView.swift */; };
 		FB30E34C218C4AEEE573ACC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB30E7048C470A85BD1F7E07 /* Main.storyboard */; };
 		FB30E41ABB20BB3F52F5B588 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30E86584216E6558577684 /* SceneDelegate.swift */; };
 		FB30E497CA940A80A8D88E2B /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30E73E8A03E49FAAAD6521 /* TrackerViewController.swift */; };
+		FB30E5961193A9AD3A48F580 /* ReusableCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30ED54764A0F72F4E0FE50 /* ReusableCell+Extension.swift */; };
 		FB30E5CA89F6FE0AA12F5FA7 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30E7AEEC6B3E01A516F68C /* Images.swift */; };
 		FB30E60B70B2F2031371E663 /* TrackerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30E844252721D9B43CE263 /* TrackerMock.swift */; };
 		FB30E615192326549E34115A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB30ED014D405C349B9E4B98 /* Colors.swift */; };
@@ -25,7 +25,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FB30E15099B575403B7228A3 /* TrackerCartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerCartView.swift; sourceTree = "<group>"; };
 		FB30E17E20169F798D32E6EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB30E1F53BD969658FAD3138 /* RootTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		FB30E32FEA69974908E8CBF7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = file.gitignore; path = .gitignore; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		FB30EAA9B6CAA47B30BFB694 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB30EC5AE5CBDB6075B4EF55 /* TrackerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerViewModel.swift; sourceTree = "<group>"; };
 		FB30ED014D405C349B9E4B98 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		FB30ED54764A0F72F4E0FE50 /* ReusableCell+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ReusableCell+Extension.swift"; sourceTree = "<group>"; };
 		FB30EE0037F0E0B0B2251894 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FB30EEE814C74E1B05C6062C /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,7 +61,6 @@
 			children = (
 				FB30E73E8A03E49FAAAD6521 /* TrackerViewController.swift */,
 				FB30E94D38C2438C82ADDBC2 /* TrackerViewCell.swift */,
-				FB30E15099B575403B7228A3 /* TrackerCartView.swift */,
 				FB30EC5AE5CBDB6075B4EF55 /* TrackerViewModel.swift */,
 			);
 			path = Trackers;
@@ -115,8 +114,17 @@
 				FB30E67579EB0D67CAA4746F /* DesignComponents */,
 				FB30EDD87D497AC16D7EBDBF /* Models */,
 				FB30E499F568E64DF3A443FA /* Recources */,
+				FB30EAE202839BD9C8D1DACF /* Foundation */,
 			);
 			path = TrackerPracticum;
+			sourceTree = "<group>";
+		};
+		FB30EAE202839BD9C8D1DACF /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				FB30ED54764A0F72F4E0FE50 /* ReusableCell+Extension.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		FB30ED1C42AEDA17FC0F43BE = {
@@ -208,10 +216,10 @@
 				FB30E615192326549E34115A /* Colors.swift in Sources */,
 				FB30E5CA89F6FE0AA12F5FA7 /* Images.swift in Sources */,
 				FB30E7493CB5075E57714CC5 /* TrackerViewCell.swift in Sources */,
-				FB30E2AE5B3856F007C82429 /* TrackerCartView.swift in Sources */,
 				FB30E7EBACECA1ADFD6D8253 /* Tracker.swift in Sources */,
 				FB30E60B70B2F2031371E663 /* TrackerMock.swift in Sources */,
 				FB30E96D280E613001833377 /* TrackerViewModel.swift in Sources */,
+				FB30E5961193A9AD3A48F580 /* ReusableCell+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

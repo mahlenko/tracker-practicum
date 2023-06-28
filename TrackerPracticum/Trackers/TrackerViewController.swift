@@ -112,36 +112,6 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         let collectionViewWidth = collectionView.bounds.width
         return CGSize(width: collectionViewWidth / 2 - 4.5, height: 148)
     }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        contextMenuConfigurationForItemAt indexPath: IndexPath,
-        point: CGPoint
-    ) -> UIContextMenuConfiguration? {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerViewCell
-        else { return nil }
-
-        let tracker = viewModel.item(by: indexPath.row)
-
-        // TODO: при нажатии обрезается часть карточки + позиционирование превью не по верхнему краю
-        return UIContextMenuConfiguration(
-            identifier: nil,
-            previewProvider: {
-                // setup preview view
-                let cart = TrackerCartView()
-
-                cart.setup(
-                    for: tracker,
-                    preferredContentSize: cell.cartView.view.bounds.size
-                )
-
-                return cart
-            },
-            actionProvider: { _ in
-                tracker.contextMenu()
-            }
-        )
-    }
 }
 
 extension TrackerViewController: UICollectionViewDataSource {
@@ -150,9 +120,10 @@ extension TrackerViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TrackerViewCell.identifier,
-            for: indexPath) as! TrackerViewCell
+            for: indexPath) as? TrackerViewCell
+        else { fatalError("Reusable cell not found.") }
 
         let tracker = viewModel.item(by: indexPath.row)
         cell.setup(for: tracker)
