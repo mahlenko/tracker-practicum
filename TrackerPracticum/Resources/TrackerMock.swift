@@ -35,6 +35,7 @@ class TrackerMock {
             symbol: symbols.randomElement() ?? "",
             title: titles.randomElement() ?? "unknown",
             pin: Bool.random(),
-            color: colors.randomElement() ?? .asset(.lightGrayUniversal))
+            color: colors.randomElement() ?? .asset(.lightGrayUniversal),
+            isRegular: Bool.random())
     }
 }

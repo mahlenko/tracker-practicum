@@ -4,8 +4,8 @@
 
 import UIKit
 
-class TrackerViewController: UIViewController {
-    private let viewModel = TrackerViewModel()
+class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
+    var viewModel: TrackerViewModelProtocol = TrackerViewModel()
 
     // MARK: - UI
 
@@ -64,8 +64,7 @@ class TrackerViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupLayout()
-
-        viewModel.fetchTrackers()
+        bindViewModel()
     }
 
     private func setupView() {
@@ -112,37 +111,71 @@ extension TrackerViewController {
         let navigationBar = UINavigationController(rootViewController: controller)
         present(navigationBar, animated: true)
     }
+
+    /// Binding handlers for view model
+    func bindViewModel() {
+        viewModel.editTrackerHandle = { [weak self] (tracker: Tracker) in
+            guard let self else { return }
+
+            let editController = EditTrackerViewController(tracker: tracker, isRegular: tracker.isRegular)
+            let navigationController = UINavigationController(rootViewController: editController)
+
+            present(navigationController, animated: true)
+        }
+
+        viewModel.fetchTrackers()
+    }
 }
 
-// MARK: Extensions for collection
+// MARK: Extensions
 
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         9
     }
 
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         9
     }
 
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         let collectionViewWidth = collectionView.bounds.width
         return CGSize(width: collectionViewWidth / 2 - 4.5, height: 148)
     }
 }
 
 extension TrackerViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         viewModel.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TrackerViewCell.identifier,
             for: indexPath) as? TrackerViewCell
         else { fatalError("Reusable cell not found.") }
 
         let tracker = viewModel.item(by: indexPath.row)
+
+        cell.delegate = self
         cell.setup(for: tracker)
 
         return cell

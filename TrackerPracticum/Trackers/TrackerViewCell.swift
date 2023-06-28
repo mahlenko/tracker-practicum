@@ -7,6 +7,7 @@ import UIKit
 final class TrackerViewCell: UICollectionViewCell, ReusableCell {
     // MARK: - Cart UI Elements
 
+    var delegate: TrackerViewDelegateProtocol?
     private var tracker: Tracker?
 
     private let symbolLabel: UILabel = {
@@ -127,7 +128,7 @@ final class TrackerViewCell: UICollectionViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupView() {
-        quantityLabel.text = "1 день"
+        quantityLabel.text = "1 день (mock)"
 
         contentView.addSubview(contentStackView)
         // TODO не разобрался как сделать, чтобы не обрезалась карточка при длинном тапе, до появления меню
@@ -179,7 +180,7 @@ extension TrackerViewCell: UIContextMenuInteractionDelegate {
                 let tracker = self.tracker
             else { return nil }
 
-            return tracker.contextMenu()
+            return delegate?.viewModel.contextMenu(tracker: tracker)
         }
     }
 }
