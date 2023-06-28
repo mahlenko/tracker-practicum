@@ -18,7 +18,7 @@ class TrackerViewModel: TrackerViewModelProtocol {
         // TODO: Using storage
         let trackerMock = TrackerMock()
 
-        for _ in 0..<Int.random(in: 5..<15) {
+        for _ in 0..<Int.random(in: 0..<15) {
             items.append(trackerMock.make())
         }
 
