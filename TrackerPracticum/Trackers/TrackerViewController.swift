@@ -9,12 +9,12 @@ class TrackerViewController: UIViewController {
 
     // MARK: - UI
 
-    private var plusButton: UIBarButtonItem = {
+    private lazy var plusButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
             style: .plain,
-            target: nil,
-            action: nil)
+            target: self,
+            action: #selector(showCreateTracker))
 
         button.tintColor = .asset(.black)
         return button
@@ -103,6 +103,18 @@ class TrackerViewController: UIViewController {
         ])
     }
 }
+
+// MARK: - Actions
+
+extension TrackerViewController {
+    @objc func showCreateTracker(_ sender: Any) {
+        let controller = CreateTrackerViewController()
+        let navigationBar = UINavigationController(rootViewController: controller)
+        present(navigationBar, animated: true)
+    }
+}
+
+// MARK: Extensions for collection
 
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
