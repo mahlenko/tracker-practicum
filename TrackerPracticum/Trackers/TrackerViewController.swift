@@ -76,8 +76,8 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         collectionView.dataSource = self
         collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: TrackerViewCell.identifier)
 
-        view.addSubview(emptyStackView)
         view.addSubview(collectionView)
+        view.addSubview(emptyStackView)
     }
 
     private func setupLayout() {
@@ -121,6 +121,12 @@ extension TrackerViewController {
             let navigationController = UINavigationController(rootViewController: editController)
 
             present(navigationController, animated: true)
+        }
+
+        viewModel.fetchCompleteHandle = { [weak self] in
+            guard let self else { return }
+
+            emptyStackView.isHidden = viewModel.count > 0
         }
 
         viewModel.fetchTrackers()

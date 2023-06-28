@@ -8,6 +8,7 @@ protocol TrackerViewModelProtocol {
     var count: Int { get }
 
     var editTrackerHandle: ((_: Tracker) -> Void)? { get set }
+    var fetchCompleteHandle: (() -> Void)? { get set }
 
     func fetchTrackers()
     func tracker(by: Int) -> Tracker

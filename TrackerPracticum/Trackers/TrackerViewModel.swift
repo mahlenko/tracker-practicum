@@ -11,6 +11,7 @@ class TrackerViewModel: TrackerViewModelProtocol {
         items.count
     }()
 
+    var fetchCompleteHandle: (() -> Void)?
     var editTrackerHandle: ((_: Tracker) -> Void)?
 
     func fetchTrackers() {
@@ -20,6 +21,8 @@ class TrackerViewModel: TrackerViewModelProtocol {
         for _ in 0..<Int.random(in: 5..<15) {
             items.append(trackerMock.make())
         }
+
+        fetchCompleteHandle?()
     }
 
     func tracker(by: Int) -> Tracker {
