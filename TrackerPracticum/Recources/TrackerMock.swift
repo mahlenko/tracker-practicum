@@ -32,9 +32,9 @@ class TrackerMock {
     func make() -> Tracker {
         Tracker(
             id: UUID(),
-            symbol: symbols.randomElement()!,
-            title: titles.randomElement()!,
+            symbol: symbols.randomElement() ?? "",
+            title: titles.randomElement() ?? "unknown",
             pin: Bool.random(),
-            color: colors.randomElement()!)
+            color: colors.randomElement() ?? .asset(.lightGrayUniversal))
     }
 }
