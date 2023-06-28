@@ -22,7 +22,7 @@ class TrackerViewModel: TrackerViewModelProtocol {
         }
     }
 
-    func item(by: Int) -> Tracker {
+    func tracker(by: Int) -> Tracker {
         items[by]
     }
 

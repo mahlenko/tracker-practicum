@@ -173,7 +173,7 @@ extension TrackerViewController: UICollectionViewDataSource {
             for: indexPath) as? TrackerViewCell
         else { fatalError("Reusable cell not found.") }
 
-        let tracker = viewModel.item(by: indexPath.row)
+        let tracker = viewModel.tracker(by: indexPath.row)
 
         cell.delegate = self
         cell.setup(for: tracker)

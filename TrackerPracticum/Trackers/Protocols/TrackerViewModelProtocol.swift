@@ -10,7 +10,7 @@ protocol TrackerViewModelProtocol {
     var editTrackerHandle: ((_: Tracker) -> Void)? { get set }
 
     func fetchTrackers()
-    func item(by: Int) -> Tracker
+    func tracker(by: Int) -> Tracker
 
     func contextMenu(tracker: Tracker) -> UIMenu
 }
