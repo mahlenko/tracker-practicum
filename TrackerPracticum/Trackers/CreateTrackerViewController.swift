@@ -36,6 +36,9 @@ final class CreateTrackerViewController: UIViewController {
         title = "Создание трекера"
         view.backgroundColor = .asset(.white)
         view.addSubview(actionStackView)
+
+        regularButton.addTarget(self, action: #selector(regularTap), for: .touchUpInside)
+        notRegularButton.addTarget(self, action: #selector(notRegularTap), for: .touchUpInside)
     }
 
     private func setupLayout() {
@@ -49,5 +52,24 @@ final class CreateTrackerViewController: UIViewController {
             actionStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             actionStackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
+    }
+}
+
+// MARK: - Actions
+
+extension CreateTrackerViewController {
+    @objc func regularTap() {
+        let editController = EditTrackerViewController(tracker: nil, isRegular: true)
+        return showEditController(root: editController)
+    }
+
+    @objc func notRegularTap() {
+        let editController = EditTrackerViewController(tracker: nil, isRegular: false)
+        return showEditController(root: editController)
+    }
+
+    private func showEditController(root: UIViewController) {
+        let navigationController = UINavigationController(rootViewController: root)
+        present(navigationController, animated: true)
     }
 }
