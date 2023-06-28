@@ -7,6 +7,7 @@ import UIKit
 enum Color: String {
     case black
     case white
+    case whiteUniversal
     case background
     case grayUniversal
     case lightGrayUniversal
