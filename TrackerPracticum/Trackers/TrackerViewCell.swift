@@ -130,6 +130,7 @@ final class TrackerViewCell: UICollectionViewCell, ReusableCell {
         quantityLabel.text = "1 день"
 
         contentView.addSubview(contentStackView)
+        // TODO не разобрался как сделать, чтобы не обрезалась карточка при длинном тапе, до появления меню
         cardStackView.addInteraction(UIContextMenuInteraction(delegate: self))
     }
 
