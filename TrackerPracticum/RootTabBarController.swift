@@ -32,7 +32,7 @@ class RootTabBarController: UITabBarController {
 
         // Second tab "Statistic"
         let statisticController = StatisticScreenController()
-        statisticController.title = "Cтатистика"
+        statisticController.title = "Статистика"
 
         let statisticNavigationController = UINavigationController(rootViewController: statisticController)
         statisticNavigationController.navigationBar.prefersLargeTitles = true
@@ -43,8 +43,8 @@ class RootTabBarController: UITabBarController {
             tag: 1)
 
         viewControllers = [
+            statisticNavigationController,
             trackerNavigationController,
-            statisticNavigationController
         ]
     }
 }

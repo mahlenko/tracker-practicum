@@ -41,21 +41,10 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         return collection
     }()
 
-    private var emptyStackView: UIStackView = {
-        let image = UIImageView(image: .asset(.emptyList))
-
-        let messageLabel = UILabel()
-        messageLabel.text = "Что будем отслеживать?"
-        messageLabel.textColor = .asset(.black)
-        messageLabel.textAlignment = .center
-        messageLabel.font = .boldSystemFont(ofSize: 12)
-
-        let stackView = UIStackView(arrangedSubviews: [image, messageLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.alignment = .center
-
-        return stackView
+    private lazy var emptyStackView: UIStackView = {
+        EmptyDataStackView(
+            image: .asset(.emptyListIcon),
+            message: "Что будем отслеживать?")
     }()
 
     // MARK: - Setup view
@@ -87,12 +76,9 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
             view.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        NSLayoutConstraint.activate([
-            emptyStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            emptyStackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-            emptyStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            emptyStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
-        ])
+        if let emptyStackView = emptyStackView as? EmptyDataStackView {
+            emptyStackView.setupLayout(safeArea: safeArea)
+        }
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
