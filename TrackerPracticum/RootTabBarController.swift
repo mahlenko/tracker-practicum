@@ -43,8 +43,8 @@ class RootTabBarController: UITabBarController {
             tag: 1)
 
         viewControllers = [
-            statisticNavigationController,
             trackerNavigationController,
+            statisticNavigationController
         ]
     }
 }

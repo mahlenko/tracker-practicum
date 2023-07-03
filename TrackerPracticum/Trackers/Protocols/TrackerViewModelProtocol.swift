@@ -11,7 +11,7 @@ protocol TrackerViewModelProtocol {
     var fetchCompleteHandle: (() -> Void)? { get set }
 
     func fetchTrackers()
-    func tracker(by: Int) -> Tracker
+    func tracker(by: Int) -> Tracker?
 
     func contextMenu(tracker: Tracker) -> UIMenu
 }

@@ -25,8 +25,8 @@ class TrackerViewModel: TrackerViewModelProtocol {
         fetchCompleteHandle?()
     }
 
-    func tracker(by: Int) -> Tracker {
-        items[by]
+    func tracker(by: Int) -> Tracker? {
+        by <= items.count ? items[by] : nil
     }
 
     func contextMenu(tracker: Tracker) -> UIMenu {
