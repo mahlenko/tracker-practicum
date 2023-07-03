@@ -93,7 +93,7 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
 
 extension TrackerViewController {
     @objc func showCreateTracker(_ sender: Any) {
-        let controller = CreateTrackerViewController()
+        let controller = SelectTrackerTypeViewContoller()
         let navigationBar = UINavigationController(rootViewController: controller)
         present(navigationBar, animated: true)
     }

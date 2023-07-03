@@ -4,7 +4,7 @@
 
 import UIKit
 
-final class CreateTrackerViewController: UIViewController {
+final class SelectTrackerTypeViewContoller: UIViewController {
     private lazy var regularButton: Button = {
         let button = Button(type: .custom)
         button.setTitle("Привычка", for: .normal)
@@ -57,7 +57,7 @@ final class CreateTrackerViewController: UIViewController {
 
 // MARK: - Actions
 
-extension CreateTrackerViewController {
+extension SelectTrackerTypeViewContoller {
     @objc func regularTap() {
         let editController = EditTrackerViewController(tracker: nil, isRegular: true)
         return showEditController(root: editController)
