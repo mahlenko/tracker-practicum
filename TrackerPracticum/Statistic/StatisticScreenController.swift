@@ -85,7 +85,10 @@ extension StatisticScreenController: UICollectionViewDelegateFlowLayout {
 }
 
 extension StatisticScreenController: UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         viewModel.count
     }
 
