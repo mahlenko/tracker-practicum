@@ -11,13 +11,13 @@ struct SectionItems {
 }
 
 class EditViewModel {
-    let emoji = [
+    static let emoji = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
         "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
 
-    let colors = [
+    static let colors = [
         UIColor.rgba(253, 76, 73, 1),
         UIColor.rgba(255, 136, 30, 1),
         UIColor.rgba(0, 123, 250, 1),
@@ -40,8 +40,8 @@ class EditViewModel {
 
     lazy var sections: [SectionItems] = {
         [
-            SectionItems(name: "Emoji", cell: EmojiCell.self, items: emoji),
-            SectionItems(name: "Цвет", cell: ColorCell.self, items: colors)
+            SectionItems(name: "Emoji", cell: EmojiCell.self, items: EditViewModel.emoji),
+            SectionItems(name: "Цвет", cell: ColorCell.self, items: EditViewModel.colors)
         ]
     }()
 }

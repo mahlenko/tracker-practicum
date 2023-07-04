@@ -5,35 +5,21 @@
 import UIKit
 
 class TrackerMock {
-    private let symbols: [String] = [
-        "🍇", "🍈", "🍉", "🍊", "🍋",
-        "🍌", "🍍", "🥭", "🍎", "🍏",
-        "🍐", "🍒", "🍓", "🫐", "🥝",
-        "🍅", "🫒", "🥥", "🥑", "🍆",
-        "🥔", "🥕", "🌽", "🌶️", "🫑",
-        "🥒", "🥬", "🥦", "🧄", "🧅",
-        "🍄"
-    ]
-
-    private let titles: [String] = [
-        "Кошка заслонила камеру на созвоне",
-        "Поливать растения",
-        "Бабушка прислала открытку в вотсапе",
-        "Свидания в апреле",
-        "Хорошее настроение",
-        "Легкая тревожность"
-    ]
-
-    private let colors: [UIColor] = [
-        .asset(.redUniversal),
-        .asset(.blueUniversal)
-    ]
+    private let colors: [UIColor] = EditViewModel.colors
+    private let symbols: [String] = EditViewModel.emoji
 
     func make() -> Tracker {
         Tracker(
-            id: UUID(),
+            uuid: UUID(),
             symbol: symbols.randomElement() ?? "",
-            title: titles.randomElement() ?? "unknown",
+            title: [
+                "Кошка заслонила камеру на созвоне",
+                "Поливать растения",
+                "Бабушка прислала открытку в вотсапе",
+                "Свидания в апреле",
+                "Хорошее настроение",
+                "Легкая тревожность"
+            ].randomElement() ?? "unknown",
             pin: Bool.random(),
             color: colors.randomElement() ?? .asset(.lightGrayUniversal),
             isRegular: Bool.random())

@@ -175,11 +175,7 @@ extension TrackerViewCell: UIContextMenuInteractionDelegate {
         configurationForMenuAtLocation location: CGPoint
     ) -> UIContextMenuConfiguration? {
         UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
-            guard
-                let self,
-                let tracker = self.tracker
-            else { return nil }
-
+            guard let self, let tracker = self.tracker else { return nil }
             return delegate?.viewModel.contextMenu(tracker: tracker)
         }
     }

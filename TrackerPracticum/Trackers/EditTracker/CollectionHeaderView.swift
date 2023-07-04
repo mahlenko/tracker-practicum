@@ -40,9 +40,9 @@ class CollectionHeaderView: UICollectionReusableView {
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -12),
             titleLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 12)
         ])
     }
 }
