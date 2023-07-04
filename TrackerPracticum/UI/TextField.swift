@@ -23,19 +23,9 @@ class TextField: UITextField {
         clearButtonMode = .always
         layer.cornerRadius = 16
         layer.masksToBounds = true
-
-        addTarget(self, action: #selector(tapEditDidBegin), for: .editingDidBegin)
-        addTarget(self, action: #selector(tapEditDidEnd), for: .editingDidEnd)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc func tapEditDidBegin() {
-        becomeFirstResponder()
-    }
-
-    @objc func tapEditDidEnd() {
     }
 }
