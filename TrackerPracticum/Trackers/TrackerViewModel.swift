@@ -7,7 +7,7 @@ import UIKit
 class TrackerViewModel: TrackerViewModelProtocol {
     private var items: [Tracker] = []
 
-    lazy var count: Int = {
+    lazy var countItems: Int = {
         items.count
     }()
 

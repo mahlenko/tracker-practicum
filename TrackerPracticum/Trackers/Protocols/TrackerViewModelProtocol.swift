@@ -5,7 +5,7 @@
 import UIKit
 
 protocol TrackerViewModelProtocol {
-    var count: Int { get }
+    var countItems: Int { get }
 
     var editTrackerHandle: ((_: Tracker) -> Void)? { get set }
     var fetchCompleteHandle: (() -> Void)? { get set }

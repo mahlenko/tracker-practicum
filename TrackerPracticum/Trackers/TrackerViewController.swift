@@ -111,7 +111,7 @@ extension TrackerViewController {
 
         viewModel.fetchCompleteHandle = { [weak self] in
             guard let self else { return }
-            emptyStackView.isHidden = viewModel.count > 0
+            emptyStackView.isHidden = viewModel.countItems > 0
         }
 
         viewModel.fetchTrackers()
@@ -152,7 +152,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        viewModel.count
+        viewModel.countItems
     }
 
     func collectionView(
