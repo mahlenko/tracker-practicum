@@ -6,13 +6,13 @@ import UIKit
 
 final class SelectTrackerTypeViewContoller: UIViewController {
     private lazy var regularButton: Button = {
-        let button = Button(type: .custom)
+        let button = Button()
         button.setTitle("Привычка", for: .normal)
         return button
     }()
 
     private lazy var notRegularButton: Button = {
-        let button = Button(type: .custom)
+        let button = Button()
         button.setTitle("Нерегулярное событие", for: .normal)
         return button
     }()

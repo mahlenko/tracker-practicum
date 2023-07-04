@@ -59,6 +59,32 @@ final class EditTrackerViewController: UIViewController {
         return collection
     }()
 
+    private let dismissButton: Button = {
+        let button = Button(style: .dismiss)
+        button.setTitle("Отменить", for: .normal)
+        return button
+    }()
+
+    private lazy var submitButton: Button = {
+        let button = Button()
+        button.setTitle(
+            tracker == nil ? "Создать" : "Сохранить",
+            for: .normal)
+
+        button.isEnabled = false
+        return button
+    }()
+
+    private lazy var submitStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dismissButton, submitButton])
+        stackView.spacing = 8
+        stackView.distribution = .fillEqually
+        stackView.backgroundColor = .asset(.white)
+        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
     // MARK: - Show view
 
     init(tracker: Tracker? = nil, isRegular: Bool = false) {
@@ -85,12 +111,15 @@ final class EditTrackerViewController: UIViewController {
             : "Редактирование привычки"
 
         view.addSubview(contentStackView)
+        view.addSubview(submitStackView)
+
+        dismissButton.addTarget(self, action: #selector(tapDismissButton), for: .touchUpInside)
     }
 
     private func setupLayout() {
         let safeArea = view.safeAreaLayoutGuide
 
-        [contentStackView].forEach { view in
+        [contentStackView, submitStackView].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
 
@@ -100,6 +129,18 @@ final class EditTrackerViewController: UIViewController {
             contentStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
         ])
+
+        NSLayoutConstraint.activate([
+            submitStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            submitStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            submitStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
+        ])
+    }
+}
+
+extension EditTrackerViewController {
+    @objc private func tapDismissButton() {
+        dismiss(animated: true)
     }
 }
 
