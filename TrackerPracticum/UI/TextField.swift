@@ -34,10 +34,8 @@ class TextField: UITextField {
 
     @objc func tapEditDidBegin() {
         becomeFirstResponder()
-        print("start")
     }
 
     @objc func tapEditDidEnd() {
-        print("stop")
     }
 }
