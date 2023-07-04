@@ -10,7 +10,7 @@ struct SectionItems {
     let items: [Any]
 }
 
-class EditViewModel {
+class SectionRepository {
     static let emoji = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -40,8 +40,8 @@ class EditViewModel {
 
     lazy var sections: [SectionItems] = {
         [
-            SectionItems(name: "Emoji", cell: EmojiCell.self, items: EditViewModel.emoji),
-            SectionItems(name: "Цвет", cell: ColorCell.self, items: EditViewModel.colors)
+            SectionItems(name: "Emoji", cell: EmojiCell.self, items: SectionRepository.emoji),
+            SectionItems(name: "Цвет", cell: ColorCell.self, items: SectionRepository.colors)
         ]
     }()
 }

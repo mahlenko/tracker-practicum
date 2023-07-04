@@ -5,8 +5,8 @@
 import UIKit
 
 class TrackerMock {
-    private let colors: [UIColor] = EditViewModel.colors
-    private let symbols: [String] = EditViewModel.emoji
+    private let colors: [UIColor] = SectionRepository.colors
+    private let symbols: [String] = SectionRepository.emoji
 
     func make() -> Tracker {
         Tracker(

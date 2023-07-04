@@ -9,7 +9,7 @@ final class EditTrackerViewController: UIViewController {
 
     private let isRegular: Bool
     private let tracker: Tracker?
-    private let viewModel = EditViewModel()
+    private let repository = SectionRepository()
 
     // MARK: - UI Elements
 
@@ -48,7 +48,7 @@ final class EditTrackerViewController: UIViewController {
         collection.allowsMultipleSelection = true
         collection.delegate = self
         collection.dataSource = self
-        viewModel.sections.forEach { item in
+        repository.sections.forEach { item in
             collection.register(item.cell, forCellWithReuseIdentifier: item.cell.identifier)
         }
         collection.register(
@@ -144,14 +144,14 @@ final class EditTrackerViewController: UIViewController {
         nameTextField.text = tracker.title
 
         // select emoji tracker
-        let emojiSection = viewModel.sections[0]
+        let emojiSection = repository.sections[0]
         if let index = emojiSection.items.firstIndex(where: { $0 as? String == tracker.symbol }) {
             let indexPath = IndexPath(row: index, section: 0)
             trackerAppearanceCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
 
         // select color
-        let colorSection = viewModel.sections[1]
+        let colorSection = repository.sections[1]
         if let index = colorSection.items.firstIndex(where: { $0 as? UIColor == tracker.color }) {
             // TODO почему-то не видно визуально
             let indexPath = IndexPath(row: index, section: 1)
@@ -200,7 +200,7 @@ extension EditTrackerViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        viewModel.sections.count
+        repository.sections.count
     }
 
     public func collectionView(
@@ -243,7 +243,7 @@ extension EditTrackerViewController: UICollectionViewDelegate {
                 for: indexPath) as? CollectionHeaderView
             else { fatalError("Header collection not found.") }
 
-            let section = viewModel.sections[indexPath.section]
+            let section = repository.sections[indexPath.section]
             headerView.setup(title: section.name)
 
             return headerView
@@ -258,14 +258,14 @@ extension EditTrackerViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        viewModel.sections[section].items.count
+        repository.sections[section].items.count
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let section = viewModel.sections[indexPath.section]
+        let section = repository.sections[indexPath.section]
         let item = section.items[indexPath.row]
 
         let cell = collectionView.dequeueReusableCell(
