@@ -5,7 +5,7 @@
 import UIKit
 
 struct Tracker {
-    let id: UUID
+    let uuid: UUID
     let symbol: String
     let title: String
     let pin: Bool

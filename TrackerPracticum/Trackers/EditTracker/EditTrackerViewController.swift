@@ -101,6 +101,7 @@ final class EditTrackerViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupLayout()
+        setupDefaultValue()
     }
 
     private func setupView() {
@@ -135,6 +136,27 @@ final class EditTrackerViewController: UIViewController {
             submitStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             submitStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
         ])
+    }
+
+    private func setupDefaultValue() {
+        guard let tracker = tracker else { return }
+
+        nameTextField.text = tracker.title
+
+        // select emoji tracker
+        let emojiSection = viewModel.sections[0]
+        if let index = emojiSection.items.firstIndex(where: { $0 as? String == tracker.symbol }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            trackerAppearanceCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        }
+
+        // select color
+        let colorSection = viewModel.sections[1]
+        if let index = colorSection.items.firstIndex(where: { $0 as? UIColor == tracker.color }) {
+            // TODO почему-то не видно визуально
+            let indexPath = IndexPath(row: index, section: 1)
+            trackerAppearanceCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        }
     }
 }
 

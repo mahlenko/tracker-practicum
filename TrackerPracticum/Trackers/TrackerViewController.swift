@@ -53,7 +53,9 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         super.viewDidLoad()
         setupView()
         setupLayout()
-        bindViewModel()
+        bindToUpdate()
+
+        viewModel.fetch()
     }
 
     private func setupView() {
@@ -64,6 +66,10 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: TrackerViewCell.identifier)
+        collectionView.register(
+            CollectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: CollectionHeaderView.identifier)
 
         view.addSubview(collectionView)
         view.addSubview(emptyStackView)
@@ -99,8 +105,15 @@ extension TrackerViewController {
     }
 
     /// Binding handlers for view model
-    func bindViewModel() {
-        viewModel.editTrackerHandle = { [weak self] (tracker: Tracker) in
+    func bindToUpdate() {
+        // Fetch complete
+        viewModel.fetchCompleteHandle = { [weak self] in
+            guard let self else { return }
+            emptyStackView.isHidden = viewModel.numberOfCategories() > 0
+        }
+
+        // Edit action for context menu
+        viewModel.tapEditContextMenuHandler = { [weak self] (tracker: Tracker) in
             guard let self else { return }
 
             let editController = EditTrackerViewController(tracker: tracker, isRegular: tracker.isRegular)
@@ -108,17 +121,42 @@ extension TrackerViewController {
 
             present(navigationController, animated: true)
         }
-
-        viewModel.fetchCompleteHandle = { [weak self] in
-            guard let self else { return }
-            emptyStackView.isHidden = viewModel.countItems > 0
-        }
-
-        viewModel.fetchTrackers()
     }
 }
 
 // MARK: Extensions
+
+extension TrackerViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        CGSize(width: collectionView.frame.size.width, height: 50.0)
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: CollectionHeaderView.identifier,
+                for: indexPath) as? CollectionHeaderView
+            else { fatalError("Header collection not found.") }
+
+            let category = viewModel.findCategory(indexPath)
+            headerView.setup(title: category.name)
+
+            return headerView
+        default:
+            fatalError("Unexpected element kind")
+        }
+    }
+}
 
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(
@@ -145,6 +183,10 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         let collectionViewWidth = collectionView.bounds.width
         return CGSize(width: collectionViewWidth / 2 - 4.5, height: 148)
     }
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        viewModel.numberOfCategories()
+    }
 }
 
 extension TrackerViewController: UICollectionViewDataSource {
@@ -152,7 +194,7 @@ extension TrackerViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        viewModel.countItems
+        viewModel.numberOfTrackers(by: section)
     }
 
     func collectionView(
@@ -165,9 +207,9 @@ extension TrackerViewController: UICollectionViewDataSource {
         else { fatalError("Reusable cell not found.") }
 
         cell.delegate = self
-        if let tracker = viewModel.tracker(by: indexPath.row) {
-            cell.setup(for: tracker)
-        }
+
+        let tracker = viewModel.findTracker(indexPath)
+        cell.setup(for: tracker)
 
         return cell
     }
