@@ -54,6 +54,10 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         setupView()
         setupLayout()
         bindViewModel()
+
+        let controller = EditTrackerViewController()
+        let navigationController = UINavigationController(rootViewController: controller)
+        present(navigationController, animated: true)
     }
 
     private func setupView() {
