@@ -33,7 +33,7 @@ extension CALayer {
         shape.lineWidth = borderWidth
         shape.path = UIBezierPath(
             roundedRect: pathFrame,
-            cornerRadius: cornerRadius + (borderWidth / 10)
+            cornerRadius: cornerRadius + (borderWidth * 2)
         ).cgPath
 
         gradient.mask = shape
