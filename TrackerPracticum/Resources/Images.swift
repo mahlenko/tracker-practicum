@@ -5,7 +5,8 @@
 import UIKit
 
 enum Image: String {
-    case emptyList
+    case emptyListIcon
+    case emptyStatisticIcon
 }
 
 extension UIImage {
