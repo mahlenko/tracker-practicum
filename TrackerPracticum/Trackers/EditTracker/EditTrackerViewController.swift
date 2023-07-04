@@ -209,8 +209,13 @@ extension EditTrackerViewController: UICollectionViewDataSource {
             withReuseIdentifier: section.cell.identifier,
             for: indexPath)
 
-        if let cell = cell as? EmojiCell { cell.setup(emoji: item as! String) }
-        if let cell = cell as? ColorCell { cell.setup(color: item as! UIColor) }
+        if let cell = cell as? EmojiCell, let item = item as? String {
+            cell.setup(emoji: item)
+        }
+
+        if let cell = cell as? ColorCell, let item = item as? UIColor {
+            cell.setup(color: item)
+        }
 
         return cell
     }
