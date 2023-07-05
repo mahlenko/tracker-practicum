@@ -28,22 +28,35 @@ final class EditTrackerViewController: UIViewController {
         return field
     }()
 
-    private lazy var contentStackView: UIStackView = {
-        var subviews: [UIView] = [nameTextField, trackerAppearanceCollectionView]
-        if tracker != nil { subviews.insert(completedCountLabel, at: 0) }
+    private lazy var errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .asset(.redUniversal)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.text = "error message placeholder"
+        label.isHidden = true
+        return label
+    }()
 
-        let stackView = UIStackView(arrangedSubviews: subviews)
-        stackView.axis = .vertical
-        stackView.spacing = 24
-        stackView.backgroundColor = .asset(.white)
-        stackView.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        return stackView
+    private lazy var advancedSettingsTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: view.bounds.width - 32, height: 150))
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(TableAdvancedViewCell.self, forCellReuseIdentifier: TableAdvancedViewCell.identifier)
+        tableView.backgroundColor = .asset(.background)
+        tableView.isScrollEnabled = false
+        tableView.layer.cornerRadius = 16
+        tableView.rowHeight = 75
+
+        return tableView
     }()
 
     private lazy var trackerAppearanceCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collection = UICollectionView(
+            frame: CGRect(x: 0, y: 0, width: view.bounds.width - 32, height: 580),
+            collectionViewLayout: layout)
 
         collection.allowsMultipleSelection = true
         collection.delegate = self
@@ -59,9 +72,37 @@ final class EditTrackerViewController: UIViewController {
         return collection
     }()
 
-    private let dismissButton: Button = {
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .systemGray5
+        return scrollView
+    }()
+
+    private lazy var contentStackView: UIStackView = {
+        var subviews: [UIView] = [
+            nameTextField,
+            errorMessageLabel,
+            advancedSettingsTableView,
+            trackerAppearanceCollectionView
+        ]
+
+        if tracker != nil { subviews.insert(completedCountLabel, at: 0) }
+
+        let stackView = UIStackView(arrangedSubviews: subviews)
+
+        stackView.backgroundColor = .asset(.white)
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 24
+        stackView.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
+    private lazy var dismissButton: Button = {
         let button = Button(style: .dismiss)
         button.setTitle("Отменить", for: .normal)
+        button.addTarget(self, action: #selector(tapDismissButton), for: .touchUpInside)
         return button
     }()
 
@@ -113,28 +154,34 @@ final class EditTrackerViewController: UIViewController {
 
         view.addSubview(contentStackView)
         view.addSubview(submitStackView)
-
-        dismissButton.addTarget(self, action: #selector(tapDismissButton), for: .touchUpInside)
     }
 
     private func setupLayout() {
         let safeArea = view.safeAreaLayoutGuide
 
-        [contentStackView, submitStackView].forEach { view in
+        [contentStackView, advancedSettingsTableView, submitStackView].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
         }
-
-        NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
-        ])
 
         NSLayoutConstraint.activate([
             submitStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             submitStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             submitStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            contentStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            contentStackView.widthAnchor.constraint(equalTo: safeArea.widthAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: submitStackView.topAnchor)
+        ])
+
+        // TODO по-моему жестко "за колхоженно", но я не вижу другого варианта
+        let rows = CGFloat(advancedSettingsTableView.numberOfRows(inSection: 0))
+        let rowHeight = advancedSettingsTableView.rowHeight
+        NSLayoutConstraint.activate([
+            advancedSettingsTableView.heightAnchor.constraint(
+                equalToConstant: rows * rowHeight - 1
+            )
         ])
     }
 
@@ -278,6 +325,37 @@ extension EditTrackerViewController: UICollectionViewDataSource {
 
         if let cell = cell as? ColorCell, let item = item as? UIColor {
             cell.setup(color: item)
+        }
+
+        return cell
+    }
+}
+
+extension EditTrackerViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TableAdvancedViewCell.identifier,
+            for: indexPath) as? TableAdvancedViewCell
+        else { fatalError("Cell not found.") }
+
+        print("Tap")
+    }
+}
+
+extension EditTrackerViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        2
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TableAdvancedViewCell.identifier,
+            for: indexPath) as? TableAdvancedViewCell
+        else { fatalError("Cell not found.") }
+
+        cell.textLabel?.text = "Категория"
+        if indexPath.row == 0 {
+            cell.detailTextLabel?.text = "Важное"
         }
 
         return cell

@@ -56,6 +56,13 @@ class TrackerViewController: UIViewController, TrackerViewDelegateProtocol {
         bindToUpdate()
 
         viewModel.fetch()
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let editController = EditTrackerViewController()
+            let navigationController = UINavigationController(rootViewController: editController)
+            present(navigationController, animated: true)
+        }
     }
 
     private func setupView() {
